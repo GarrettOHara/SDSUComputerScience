@@ -1,0 +1,100 @@
+import java.util.*;
+/**
+ * Super Lotto Assignment
+ * @date 2/11/19
+ * @author Garrett O'Hara
+ */
+public class SuperLotto {
+	/**
+	 * Main Method
+	 * -Asks the user for their name
+	 * -Greets the user
+	 * -Asks the user how many lottery tickets they would like
+	 * -Outputs the lottery tickets in order
+	 * -Asks the user if they would like to run the program again
+	 * @param args
+	 */
+	public static void main(String[] args)
+	{
+		Scanner scan = new Scanner(System.in);
+		boolean done = false;
+		System.out.println("What is your name?");
+		String name = scan.nextLine();
+		System.out.println("Hello " + name);
+		while(!done) {
+		System.out.println("How many Super Lotto tickets would you like?");
+		int numberOfTickets = scan.nextInt();
+		int[] arrayToPrint = new int[6];
+		System.out.println();
+		for(int i = 0; i < numberOfTickets; i++)
+		{
+			arrayToPrint = quickPick();
+			for(int j = 0; j < arrayToPrint.length; j++)
+			{
+				if(j == arrayToPrint.length - 1)
+				{
+					System.out.println("MEGA: " + arrayToPrint[j]);
+				}
+				else
+				{
+					System.out.print(arrayToPrint[j] + " ");
+				}
+			}
+			System.out.println();
+		}
+		System.out.println("Would you like to run the program again?");
+		if(scan.next().equalsIgnoreCase("YES"))
+		{
+			done = false;
+		}
+		else
+		{
+			done = true;
+		}
+		}
+	}
+	/**
+	 * Quick Pick Method
+	 * -Creates a lottery ticket with the following properties
+	 * 		- 5 random numbers 1 thru 47
+	 * 		- 1 random number 1 thru 27
+	 * @return the lottery ticket in the form of an integer array
+	 */
+	public static int[] quickPick()
+	{
+		int[] lottery = new int[6];
+		Random rand = new Random();
+		
+		for(int i = 0; i < lottery.length - 1; i++)
+		{
+			int randomNumber = rand.nextInt(47) + 1;
+			while(hasValue(lottery, randomNumber))
+			{
+				randomNumber = rand.nextInt(47) + 1;
+			}
+			lottery[i] = randomNumber;
+		}
+		lottery[lottery.length - 1] = rand.nextInt(27);
+		
+		return lottery;
+	}
+	/**
+	 * hasValue method
+	 * -Checks to see if the array passed contains the number passed
+	 * @param arrayToCheck
+	 * @param numToCheckFor
+	 * @return true if the array contains the number
+	 * @return false if the array doesn't contain the number
+	 */
+	public static boolean hasValue(int[] arrayToCheck, int numToCheckFor)
+	{
+		for(int i = 0; i < arrayToCheck.length - 1; i++)
+		{
+			if(arrayToCheck[i] == numToCheckFor)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+}
